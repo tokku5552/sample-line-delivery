@@ -2,6 +2,15 @@
 LINE Messaging APIで配信を行うためのサンプルアプリ
 ![](docs/archtecture.drawio.png)
 
+## デプロイ
+```
+cd liff
+yarn export
+cd ..
+cd cdk
+npx cdk deploy
+```
+
 ## 機能
 - 管理画面
   - 配信予約が行える
