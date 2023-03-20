@@ -26,14 +26,14 @@ npx cdk deploy
 ```bash:
 export BASE_URL=https://yz4v4imz6j.execute-api.ap-northeast-1.amazonaws.com
 # get
-curl -X GET ${BASE_URL}/v1/items
+curl -X GET -H "Content-Type: application/json" ${BASE_URL}/v1/items
 
 # create
-curl -X POST ${BASE_URL}/v1/items
+curl -X POST -H "Content-Type: application/json" ${BASE_URL}/v1/items -d '{"uid": "sample-uid", "messageJson": "{ \"key\": \"value\" }", "sentDate": "2023-04-01T12:00:00.000Z"}'
 
 # update
-curl -X PUT ${BASE_URL}/v1/items
+curl -X PUT -H "Content-Type: application/json" ${BASE_URL}/v1/items
 
 # delete
-curl -X DELETE ${BASE_URL}/v1/items
+curl -X DELETE -H "Content-Type: application/json" ${BASE_URL}/v1/items
 ```

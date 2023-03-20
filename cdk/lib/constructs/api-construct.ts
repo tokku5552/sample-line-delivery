@@ -20,24 +20,28 @@ export class ApiConstruct extends Construct {
 
     const getFunction = new nodejs.NodejsFunction(this, "GetFunction", {
       entry: "lambda/get.ts",
+      functionName: "sample-delivery-get-function",
       environment: {
         TABLE_NAME: table.tableName,
       },
     });
     const createFunction = new nodejs.NodejsFunction(this, "CreateFunction", {
       entry: "lambda/create.ts",
+      functionName: "sample-delivery-create-function",
       environment: {
         TABLE_NAME: table.tableName,
       },
     });
     const updateFunction = new nodejs.NodejsFunction(this, "UpdateFunction", {
       entry: "lambda/update.ts",
+      functionName: "sample-delivery-update-function",
       environment: {
         TABLE_NAME: table.tableName,
       },
     });
     const deleteFunction = new nodejs.NodejsFunction(this, "DeleteFunction", {
       entry: "lambda/delete.ts",
+      functionName: "sample-delivery-delete-function",
       environment: {
         TABLE_NAME: table.tableName,
       },
