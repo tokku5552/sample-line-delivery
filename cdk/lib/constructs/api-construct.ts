@@ -58,9 +58,10 @@ export class ApiConstruct extends Construct {
     const deleteIntegration = new apigw.LambdaIntegration(deleteFunction);
 
     const items = api.root.addResource("items");
+    const ids = items.addResource("{id}");
     items.addMethod("GET", getIntegration);
-    items.addMethod("POST", createIntegration);
-    items.addMethod("PUT", updateIntegration);
-    items.addMethod("DELETE", deleteIntegration);
+    ids.addMethod("POST", createIntegration);
+    ids.addMethod("PUT", updateIntegration);
+    ids.addMethod("DELETE", deleteIntegration);
   }
 }
