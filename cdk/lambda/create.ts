@@ -28,6 +28,9 @@ export async function handler(
         message:
           "Invalid request. 'uid', 'messageJson', and 'sentDate' are required.",
       }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     };
   }
 

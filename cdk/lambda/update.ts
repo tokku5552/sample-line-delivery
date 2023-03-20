@@ -27,6 +27,9 @@ export async function handler(
       body: JSON.stringify({
         message: "Invalid request. 'id' path parameter is required.",
       }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     };
   }
 
@@ -39,6 +42,9 @@ export async function handler(
         message:
           "Invalid request. 'uid', 'messageJson', and 'sentDate' are required.",
       }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     };
   }
 
@@ -64,6 +70,9 @@ export async function handler(
       body: JSON.stringify({
         message: "Item successfully updated in the DynamoDB table.",
       }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     };
   } catch (error) {
     logger.error("Error updating item in the DynamoDB table:", { error });
@@ -72,6 +81,9 @@ export async function handler(
       body: JSON.stringify({
         message: "An error occurred while updating the item in the table.",
       }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     };
   }
 }

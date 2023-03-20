@@ -1,7 +1,7 @@
-export function CreatePage() {
+export default function CreatePage() {
   return (
     <>
-      <h1>create</h1>
+      <h1>create!!</h1>
     </>
   );
 }

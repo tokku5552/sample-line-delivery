@@ -47,6 +47,9 @@ export async function handler(
           message: "Item successfully retrieved from the DynamoDB table.",
           item: result.Item,
         }),
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
       };
     } else {
       logger.warn("Item not found in the DynamoDB table.");
@@ -55,6 +58,9 @@ export async function handler(
         body: JSON.stringify({
           message: "Item not found in the DynamoDB table.",
         }),
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
       };
     }
   } catch (error) {
@@ -64,6 +70,9 @@ export async function handler(
       body: JSON.stringify({
         message: "An error occurred while retrieving the item from the table.",
       }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     };
   }
 }

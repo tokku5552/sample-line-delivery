@@ -25,6 +25,9 @@ export async function handler(
       body: JSON.stringify({
         message: "Invalid request. 'id' path parameter is required.",
       }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     };
   }
 
