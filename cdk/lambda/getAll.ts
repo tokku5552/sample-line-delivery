@@ -1,6 +1,6 @@
 import { Logger } from "@aws-lambda-powertools/logger";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DeleteCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import {
   APIGatewayProxyEvent,
   APIGatewayProxyResult,
@@ -19,39 +19,26 @@ export async function handler(
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> {
-  if (!event.pathParameters || !event.pathParameters.id) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        message: "Invalid request. 'id' path parameter is required.",
-      }),
-    };
-  }
-
-  const id = event.pathParameters.id;
-
   const params = {
     TableName: TABLE_NAME,
-    Key: {
-      id: id,
-    },
   };
 
   try {
-    await dynamoDbDocumentClient.send(new DeleteCommand(params));
-    logger.info("Item successfully deleted from the DynamoDB table.");
+    const result = await dynamoDbDocumentClient.send(new ScanCommand(params));
+    logger.info("Items successfully retrieved from the DynamoDB table.");
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: "Item successfully deleted from the DynamoDB table.",
+        message: "Items successfully retrieved from the DynamoDB table.",
+        items: result.Items,
       }),
     };
   } catch (error) {
-    logger.error("Error deleting item from the DynamoDB table:", { error });
+    logger.error("Error retrieving items from the DynamoDB table:", { error });
     return {
       statusCode: 500,
       body: JSON.stringify({
-        message: "An error occurred while deleting the item from the table.",
+        message: "An error occurred while retrieving the items from the table.",
       }),
     };
   }
