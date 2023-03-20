@@ -16,6 +16,17 @@ export class ApiConstruct extends Construct {
       deployOptions: {
         stageName: "v1",
       },
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigw.Cors.ALL_ORIGINS,
+        allowMethods: apigw.Cors.ALL_METHODS,
+        allowHeaders: ["*"],
+        allowCredentials: true,
+        statusCode: 200,
+        exposeHeaders: [
+          "Access-Control-Allow-Origin",
+          "Access-Control-Allow-Headers",
+        ],
+      },
     });
 
     const getFunction = new nodejs.NodejsFunction(this, "GetFunction", {
@@ -70,6 +81,7 @@ export class ApiConstruct extends Construct {
 
     const items = api.root.addResource("items");
     const itemsId = items.addResource("{id}");
+
     items.addMethod("GET", getAllIntegration);
     items.addMethod("POST", createIntegration);
     itemsId.addMethod("GET", getIntegration);

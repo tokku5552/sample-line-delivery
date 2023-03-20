@@ -1,10 +1,31 @@
+import { Item } from "@/types/item";
 import { Heading } from "@chakra-ui/react";
-import { Inter } from "next/font/google";
+import axios from "axios";
 import Head from "next/head";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 export default function Home() {
+  const [items, setItems] = useState<Item[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(`${NEXT_PUBLIC_API_URL}/v1/items`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        setItems(response.data.items);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
   return (
     <>
       <Head>
@@ -14,6 +35,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Heading>Hey</Heading>
+
+      <Link href="/create">Create New Item</Link>
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>
+            {item.uid} - {item.messageJson} ({item.sentDate})
+            <Link href={`/update/${item.id}`}>Edit</Link>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

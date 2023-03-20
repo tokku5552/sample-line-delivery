@@ -32,6 +32,9 @@ export async function handler(
         message: "Items successfully retrieved from the DynamoDB table.",
         items: result.Items,
       }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     };
   } catch (error) {
     logger.error("Error retrieving items from the DynamoDB table:", { error });
@@ -40,6 +43,9 @@ export async function handler(
       body: JSON.stringify({
         message: "An error occurred while retrieving the items from the table.",
       }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     };
   }
 }
