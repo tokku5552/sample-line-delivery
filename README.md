@@ -25,9 +25,12 @@ npx cdk deploy
 
 ```bash:
 export BASE_URL=https://yz4v4imz6j.execute-api.ap-northeast-1.amazonaws.com
-# get
+# getAll
 curl -X GET -H "Content-Type: application/json" ${BASE_URL}/v1/items
-2f265a5f-75b8-435e-98fd-59ca70dac8b6
+
+# getAll
+curl -X GET -H "Content-Type: application/json" ${BASE_URL}/v1/items/2f265a5f-75b8-435e-98fd-59ca70dac8b6
+
 # create
 curl -X POST -H "Content-Type: application/json" ${BASE_URL}/v1/items -d '{"uid": "sample-uid", "messageJson": "{ \"key\": \"value\" }", "sentDate": "2023-04-01T12:00:00.000Z"}'
 

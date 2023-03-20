@@ -25,6 +25,15 @@ export class ApiConstruct extends Construct {
         TABLE_NAME: table.tableName,
       },
     });
+
+    const getAllFunction = new nodejs.NodejsFunction(this, "GetAllFunction", {
+      entry: "lambda/getAll.ts",
+      functionName: "sample-delivery-get-all-function",
+      environment: {
+        TABLE_NAME: table.tableName,
+      },
+    });
+
     const createFunction = new nodejs.NodejsFunction(this, "CreateFunction", {
       entry: "lambda/create.ts",
       functionName: "sample-delivery-create-function",
@@ -47,11 +56,13 @@ export class ApiConstruct extends Construct {
       },
     });
 
+    table.grantReadWriteData(getAllFunction);
     table.grantReadWriteData(getFunction);
     table.grantReadWriteData(createFunction);
     table.grantReadWriteData(updateFunction);
     table.grantReadWriteData(deleteFunction);
 
+    const getAllIntegration = new apigw.LambdaIntegration(getAllFunction);
     const getIntegration = new apigw.LambdaIntegration(getFunction);
     const createIntegration = new apigw.LambdaIntegration(createFunction);
     const updateIntegration = new apigw.LambdaIntegration(updateFunction);
@@ -59,8 +70,9 @@ export class ApiConstruct extends Construct {
 
     const items = api.root.addResource("items");
     const itemsId = items.addResource("{id}");
-    items.addMethod("GET", getIntegration);
+    items.addMethod("GET", getAllIntegration);
     items.addMethod("POST", createIntegration);
+    itemsId.addMethod("GET", getIntegration);
     itemsId.addMethod("PUT", updateIntegration);
     itemsId.addMethod("DELETE", deleteIntegration);
   }
