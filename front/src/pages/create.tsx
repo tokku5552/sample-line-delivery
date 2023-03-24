@@ -1,8 +1,8 @@
 import { NEXT_PUBLIC_API_URL } from "@/commons/constants";
-import { Item } from "@/types/item";
 import {
   Box,
   Button,
+  ButtonGroup,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 type CreateFormData = {
   uid: string;
@@ -21,9 +20,6 @@ type CreateFormData = {
 
 export default function CreatePage() {
   const router = useRouter();
-  const { id } = router.query;
-
-  const [item, setItem] = useState<Item>();
 
   const { handleSubmit, register, formState } = useForm<CreateFormData>({
     mode: "onSubmit",
@@ -48,11 +44,7 @@ export default function CreatePage() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl id="uid" isRequired>
             <FormLabel>UID</FormLabel>
-            <Input
-              id="uid"
-              defaultValue={item?.uid}
-              {...register("uid", { required: true })}
-            />
+            <Input id="uid" {...register("uid", { required: true })} />
             <FormErrorMessage>
               {formState.errors.uid && "UID is required"}
             </FormErrorMessage>
@@ -62,7 +54,6 @@ export default function CreatePage() {
             <FormLabel>Message JSON</FormLabel>
             <Input
               id="messageJson"
-              defaultValue={item?.messageJson}
               {...register("messageJson", { required: true })}
             />
             <FormErrorMessage>
@@ -74,21 +65,25 @@ export default function CreatePage() {
             <FormLabel>送信日</FormLabel>
             <Input
               id="sentDate"
-              defaultValue={item?.sentDate}
               {...register("sentDate", { required: true })}
             />
             <FormErrorMessage>
               {formState.errors.messageJson && "Message JSON is required"}
             </FormErrorMessage>
           </FormControl>
-          <Button
-            mt="4"
-            colorScheme="teal"
-            isLoading={formState.isSubmitting}
-            type="submit"
-          >
-            新規作成
-          </Button>
+          <ButtonGroup mt="4">
+            <Button mt="4" colorScheme="teal" onClick={() => router.push("/")}>
+              戻る
+            </Button>
+            <Button
+              mt="4"
+              colorScheme="teal"
+              isLoading={formState.isSubmitting}
+              type="submit"
+            >
+              新規作成
+            </Button>
+          </ButtonGroup>
         </form>
       </Box>
     </>

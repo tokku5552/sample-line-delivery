@@ -3,6 +3,7 @@ import { Item } from "@/types/item";
 import {
   Box,
   Button,
+  ButtonGroup,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -103,14 +104,19 @@ export default function UpdatePage() {
               {formState.errors.messageJson && "Message JSON is required"}
             </FormErrorMessage>
           </FormControl>
-          <Button
-            mt="4"
-            colorScheme="teal"
-            isLoading={formState.isSubmitting}
-            type="submit"
-          >
-            更新
-          </Button>
+          <ButtonGroup mt="4">
+            <Button mt="4" colorScheme="teal" onClick={() => router.push("/")}>
+              戻る
+            </Button>
+            <Button
+              mt="4"
+              colorScheme="teal"
+              isLoading={formState.isSubmitting}
+              type="submit"
+            >
+              更新
+            </Button>
+          </ButtonGroup>
         </form>
       </Box>
     </>
