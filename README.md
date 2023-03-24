@@ -24,7 +24,7 @@ npx cdk deploy
 - API
 
 ```bash:
-export BASE_URL=https://yz4v4imz6j.execute-api.ap-northeast-1.amazonaws.com
+export BASE_URL=<API Gatewayのエンドポイント>
 # getAll
 curl -X GET -H "Content-Type: application/json" ${BASE_URL}/v1/items
 
