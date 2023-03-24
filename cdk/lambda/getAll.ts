@@ -6,6 +6,7 @@ import {
   APIGatewayProxyResult,
   Context,
 } from "aws-lambda";
+import { lambdaResponse } from "./utils";
 
 const TABLE_NAME = process.env.TABLE_NAME || "";
 
@@ -26,20 +27,20 @@ export async function handler(
   try {
     const result = await dynamoDbDocumentClient.send(new ScanCommand(params));
     logger.info("Items successfully retrieved from the DynamoDB table.");
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
+    return lambdaResponse(
+      200,
+      JSON.stringify({
         message: "Items successfully retrieved from the DynamoDB table.",
         items: result.Items,
-      }),
-    };
+      })
+    );
   } catch (error) {
     logger.error("Error retrieving items from the DynamoDB table:", { error });
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
+    return lambdaResponse(
+      500,
+      JSON.stringify({
         message: "An error occurred while retrieving the items from the table.",
-      }),
-    };
+      })
+    );
   }
 }
