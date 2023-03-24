@@ -6,6 +6,7 @@ import {
   APIGatewayProxyResult,
   Context,
 } from "aws-lambda";
+import { lambdaResponse } from "./utils";
 
 const TABLE_NAME = process.env.TABLE_NAME || "";
 
@@ -20,15 +21,12 @@ export async function handler(
   context: Context
 ): Promise<APIGatewayProxyResult> {
   if (!event.pathParameters || !event.pathParameters.id) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
+    return lambdaResponse(
+      400,
+      JSON.stringify({
         message: "Invalid request. 'id' path parameter is required.",
-      }),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
+      })
+    );
   }
 
   const id = event.pathParameters.id;
@@ -43,19 +41,19 @@ export async function handler(
   try {
     await dynamoDbDocumentClient.send(new DeleteCommand(params));
     logger.info("Item successfully deleted from the DynamoDB table.");
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
+    return lambdaResponse(
+      200,
+      JSON.stringify({
         message: "Item successfully deleted from the DynamoDB table.",
-      }),
-    };
+      })
+    );
   } catch (error) {
     logger.error("Error deleting item from the DynamoDB table:", { error });
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
+    return lambdaResponse(
+      500,
+      JSON.stringify({
         message: "An error occurred while deleting the item from the table.",
-      }),
-    };
+      })
+    );
   }
 }

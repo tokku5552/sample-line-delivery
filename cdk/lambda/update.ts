@@ -6,6 +6,7 @@ import {
   APIGatewayProxyResult,
   Context,
 } from "aws-lambda";
+import { lambdaResponse } from "./utils";
 
 const TABLE_NAME = process.env.TABLE_NAME || "";
 
@@ -22,30 +23,24 @@ export async function handler(
   const body = JSON.parse(event.body || "{}");
 
   if (!event.pathParameters || !event.pathParameters.id) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
+    return lambdaResponse(
+      400,
+      JSON.stringify({
         message: "Invalid request. 'id' path parameter is required.",
-      }),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
+      })
+    );
   }
 
   const id = event.pathParameters.id;
 
   if (!body || !body.uid || !body.messageJson || !body.sentDate) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
+    return lambdaResponse(
+      400,
+      JSON.stringify({
         message:
           "Invalid request. 'uid', 'messageJson', and 'sentDate' are required.",
-      }),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
+      })
+    );
   }
 
   const params = {
@@ -65,25 +60,19 @@ export async function handler(
   try {
     await dynamoDbDocumentClient.send(new UpdateCommand(params));
     logger.info("Item successfully updated in the DynamoDB table.");
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
+    return lambdaResponse(
+      200,
+      JSON.stringify({
         message: "Item successfully updated in the DynamoDB table.",
-      }),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
+      })
+    );
   } catch (error) {
     logger.error("Error updating item in the DynamoDB table:", { error });
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
+    return lambdaResponse(
+      500,
+      JSON.stringify({
         message: "An error occurred while updating the item in the table.",
-      }),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
+      })
+    );
   }
 }

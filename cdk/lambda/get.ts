@@ -6,6 +6,7 @@ import {
   APIGatewayProxyResult,
   Context,
 } from "aws-lambda";
+import { lambdaResponse } from "./utils";
 
 const TABLE_NAME = process.env.TABLE_NAME || "";
 
@@ -20,12 +21,12 @@ export async function handler(
   context: Context
 ): Promise<APIGatewayProxyResult> {
   if (!event.pathParameters || !event.pathParameters.id) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
+    return lambdaResponse(
+      400,
+      JSON.stringify({
         message: "Invalid request. 'id' path parameter is required.",
-      }),
-    };
+      })
+    );
   }
 
   const id = event.pathParameters.id;
@@ -41,38 +42,29 @@ export async function handler(
     const result = await dynamoDbDocumentClient.send(new GetCommand(params));
     if (result.Item) {
       logger.info("Item successfully retrieved from the DynamoDB table.");
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
+      return lambdaResponse(
+        200,
+        JSON.stringify({
           message: "Item successfully retrieved from the DynamoDB table.",
           item: result.Item,
-        }),
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      };
+        })
+      );
     } else {
       logger.warn("Item not found in the DynamoDB table.");
-      return {
-        statusCode: 404,
-        body: JSON.stringify({
+      return lambdaResponse(
+        404,
+        JSON.stringify({
           message: "Item not found in the DynamoDB table.",
-        }),
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      };
+        })
+      );
     }
   } catch (error) {
     logger.error("Error retrieving item from the DynamoDB table:", { error });
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
+    return lambdaResponse(
+      500,
+      JSON.stringify({
         message: "An error occurred while retrieving the item from the table.",
-      }),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
+      })
+    );
   }
 }

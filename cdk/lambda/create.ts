@@ -7,6 +7,7 @@ import {
   Context,
 } from "aws-lambda";
 import * as UUID from "uuid";
+import { lambdaResponse } from "./utils";
 
 const TABLE_NAME = process.env.TABLE_NAME || "";
 
@@ -22,16 +23,13 @@ export async function handler(
   const body = JSON.parse(event.body || "{}");
 
   if (!body || !body.uid || !body.messageJson || !body.sentDate) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
+    return lambdaResponse(
+      400,
+      JSON.stringify({
         message:
           "Invalid request. 'uid', 'messageJson', and 'sentDate' are required.",
-      }),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
+      })
+    );
   }
 
   const isSent = false;
@@ -50,19 +48,19 @@ export async function handler(
   try {
     await dynamoDbDocumentClient.send(new PutCommand(params));
     logger.info("Item successfully added to the DynamoDB table.");
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
+    return lambdaResponse(
+      200,
+      JSON.stringify({
         message: "Item successfully added to the DynamoDB table.",
-      }),
-    };
+      })
+    );
   } catch (error) {
     logger.error("Error adding item to the DynamoDB table:", { error });
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
+    return lambdaResponse(
+      500,
+      JSON.stringify({
         message: "An error occurred while adding the item to the table.",
-      }),
-    };
+      })
+    );
   }
 }

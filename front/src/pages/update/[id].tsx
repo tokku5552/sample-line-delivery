@@ -52,15 +52,11 @@ export default function UpdatePage() {
 
   const onSubmit = async (data: UpdateFormData) => {
     try {
-      const response = await axios.put(
-        `${NEXT_PUBLIC_API_URL}/v1/items/${id}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await axios.put(`${NEXT_PUBLIC_API_URL}/v1/items/${id}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       router.push("/");
     } catch (error) {
       console.error("Error updating item:", error);
