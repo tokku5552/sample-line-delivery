@@ -4,10 +4,11 @@ import * as nodejs from "aws-cdk-lib/aws-lambda-nodejs";
 import { Construct } from "constructs";
 
 export class ApiConstruct extends Construct {
+  public readonly table: dynamodb.Table;
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const table = new dynamodb.Table(this, "Table", {
+    this.table = new dynamodb.Table(this, "Table", {
       tableName: "sample-delivery-table",
       partitionKey: { name: "id", type: dynamodb.AttributeType.STRING },
     });
@@ -33,7 +34,7 @@ export class ApiConstruct extends Construct {
       entry: "lambda/get.ts",
       functionName: "sample-delivery-get-function",
       environment: {
-        TABLE_NAME: table.tableName,
+        TABLE_NAME: this.table.tableName,
       },
     });
 
@@ -41,7 +42,7 @@ export class ApiConstruct extends Construct {
       entry: "lambda/getAll.ts",
       functionName: "sample-delivery-get-all-function",
       environment: {
-        TABLE_NAME: table.tableName,
+        TABLE_NAME: this.table.tableName,
       },
     });
 
@@ -49,29 +50,29 @@ export class ApiConstruct extends Construct {
       entry: "lambda/create.ts",
       functionName: "sample-delivery-create-function",
       environment: {
-        TABLE_NAME: table.tableName,
+        TABLE_NAME: this.table.tableName,
       },
     });
     const updateFunction = new nodejs.NodejsFunction(this, "UpdateFunction", {
       entry: "lambda/update.ts",
       functionName: "sample-delivery-update-function",
       environment: {
-        TABLE_NAME: table.tableName,
+        TABLE_NAME: this.table.tableName,
       },
     });
     const deleteFunction = new nodejs.NodejsFunction(this, "DeleteFunction", {
       entry: "lambda/delete.ts",
       functionName: "sample-delivery-delete-function",
       environment: {
-        TABLE_NAME: table.tableName,
+        TABLE_NAME: this.table.tableName,
       },
     });
 
-    table.grantReadWriteData(getAllFunction);
-    table.grantReadWriteData(getFunction);
-    table.grantReadWriteData(createFunction);
-    table.grantReadWriteData(updateFunction);
-    table.grantReadWriteData(deleteFunction);
+    this.table.grantReadWriteData(getAllFunction);
+    this.table.grantReadWriteData(getFunction);
+    this.table.grantReadWriteData(createFunction);
+    this.table.grantReadWriteData(updateFunction);
+    this.table.grantReadWriteData(deleteFunction);
 
     const getAllIntegration = new apigw.LambdaIntegration(getAllFunction);
     const getIntegration = new apigw.LambdaIntegration(getFunction);
