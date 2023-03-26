@@ -20,8 +20,17 @@ export async function handler(
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayISOString = yesterday.toISOString();
+
   const params = {
     TableName: TABLE_NAME,
+    FilterExpression: "isSent = :isSent AND sendDate <= :yesterday",
+    ExpressionAttributeValues: {
+      ":isSent": false,
+      ":yesterday": yesterdayISOString,
+    },
   };
 
   try {
