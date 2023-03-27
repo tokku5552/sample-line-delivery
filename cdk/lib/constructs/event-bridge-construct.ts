@@ -20,6 +20,8 @@ export class EventBridgeConstruct extends Construct {
         functionName: "sample-delivery-send-message-function",
         environment: {
           TABLE_NAME: table.tableName,
+          CHANNEL_ACCESS_TOKEN: "dummy",
+          CHANNEL_SECRET: "dummy",
         },
       }
     );

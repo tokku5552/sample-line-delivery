@@ -14,6 +14,7 @@
     "@aws-lambda-powertools/logger": "^1.6.0",
     "@aws-sdk/client-dynamodb": "^3.294.0",
     "@aws-sdk/lib-dynamodb": "^3.294.0",
+    "@line/bot-sdk": "^7.5.2",
     "@types/aws-lambda": "^8.10.114",
     "@types/jest": "^29.4.0",
     "@types/node": "18.11.18",
