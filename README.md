@@ -6,7 +6,7 @@ LINE Messaging API で配信を行うためのサンプルアプリ
 ## デプロイ
 
 ```
-cd liff
+cd front
 yarn export
 cd ..
 cd cdk
