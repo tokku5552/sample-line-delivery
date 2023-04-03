@@ -1,12 +1,12 @@
 # sample-line-delivery
 
 LINE Messaging API で配信を行うためのサンプルアプリ
-![](docs/archtecture.drawio.png)
+![](docs/architecture.drawio.png)
 
 ## デプロイ
 
 ```
-cd liff
+cd front
 yarn export
 cd ..
 cd cdk
