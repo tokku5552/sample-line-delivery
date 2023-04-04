@@ -20,6 +20,7 @@ export class EventBridgeConstruct extends Construct {
         entry: "lambda/sendMessage.ts",
         functionName: "sample-delivery-send-message-function",
         runtime: lambda.Runtime.NODEJS_18_X,
+        tracing: lambda.Tracing.ACTIVE,
         environment: {
           TABLE_NAME: table.tableName,
           CHANNEL_ACCESS_TOKEN: "dummy",

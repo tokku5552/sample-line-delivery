@@ -17,6 +17,7 @@ export class ApiConstruct extends Construct {
     const api = new apigw.RestApi(this, "RestApi", {
       deployOptions: {
         stageName: "v1",
+        tracingEnabled: true,
       },
       defaultCorsPreflightOptions: {
         allowOrigins: apigw.Cors.ALL_ORIGINS,
@@ -35,6 +36,7 @@ export class ApiConstruct extends Construct {
       entry: "lambda/get.ts",
       functionName: "sample-delivery-get-function",
       runtime: lambda.Runtime.NODEJS_18_X,
+      tracing: lambda.Tracing.ACTIVE,
       environment: {
         TABLE_NAME: this.table.tableName,
       },
@@ -44,6 +46,7 @@ export class ApiConstruct extends Construct {
       entry: "lambda/getAll.ts",
       functionName: "sample-delivery-get-all-function",
       runtime: lambda.Runtime.NODEJS_18_X,
+      tracing: lambda.Tracing.ACTIVE,
       environment: {
         TABLE_NAME: this.table.tableName,
       },
@@ -53,6 +56,7 @@ export class ApiConstruct extends Construct {
       entry: "lambda/create.ts",
       functionName: "sample-delivery-create-function",
       runtime: lambda.Runtime.NODEJS_18_X,
+      tracing: lambda.Tracing.ACTIVE,
       environment: {
         TABLE_NAME: this.table.tableName,
       },
@@ -61,6 +65,7 @@ export class ApiConstruct extends Construct {
       entry: "lambda/update.ts",
       functionName: "sample-delivery-update-function",
       runtime: lambda.Runtime.NODEJS_18_X,
+      tracing: lambda.Tracing.ACTIVE,
       environment: {
         TABLE_NAME: this.table.tableName,
       },
@@ -69,6 +74,7 @@ export class ApiConstruct extends Construct {
       entry: "lambda/delete.ts",
       functionName: "sample-delivery-delete-function",
       runtime: lambda.Runtime.NODEJS_18_X,
+      tracing: lambda.Tracing.ACTIVE,
       environment: {
         TABLE_NAME: this.table.tableName,
       },
