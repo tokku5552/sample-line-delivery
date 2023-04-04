@@ -10,7 +10,6 @@ export class FrontConstruct extends Construct {
 
     // S3バケット作成
     const appBucket = new s3.Bucket(this, "AppBucket", {
-      bucketName: "sample-line-delivery-app-bucket",
       websiteIndexDocument: "index.html",
       websiteErrorDocument: "index.html",
     });
