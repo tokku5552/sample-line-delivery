@@ -1,5 +1,6 @@
 import * as apigw from "aws-cdk-lib/aws-apigateway";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as nodejs from "aws-cdk-lib/aws-lambda-nodejs";
 import { Construct } from "constructs";
 
@@ -33,6 +34,7 @@ export class ApiConstruct extends Construct {
     const getFunction = new nodejs.NodejsFunction(this, "GetFunction", {
       entry: "lambda/get.ts",
       functionName: "sample-delivery-get-function",
+      runtime: lambda.Runtime.NODEJS_18_X,
       environment: {
         TABLE_NAME: this.table.tableName,
       },
@@ -41,6 +43,7 @@ export class ApiConstruct extends Construct {
     const getAllFunction = new nodejs.NodejsFunction(this, "GetAllFunction", {
       entry: "lambda/getAll.ts",
       functionName: "sample-delivery-get-all-function",
+      runtime: lambda.Runtime.NODEJS_18_X,
       environment: {
         TABLE_NAME: this.table.tableName,
       },
@@ -49,6 +52,7 @@ export class ApiConstruct extends Construct {
     const createFunction = new nodejs.NodejsFunction(this, "CreateFunction", {
       entry: "lambda/create.ts",
       functionName: "sample-delivery-create-function",
+      runtime: lambda.Runtime.NODEJS_18_X,
       environment: {
         TABLE_NAME: this.table.tableName,
       },
@@ -56,6 +60,7 @@ export class ApiConstruct extends Construct {
     const updateFunction = new nodejs.NodejsFunction(this, "UpdateFunction", {
       entry: "lambda/update.ts",
       functionName: "sample-delivery-update-function",
+      runtime: lambda.Runtime.NODEJS_18_X,
       environment: {
         TABLE_NAME: this.table.tableName,
       },
@@ -63,6 +68,7 @@ export class ApiConstruct extends Construct {
     const deleteFunction = new nodejs.NodejsFunction(this, "DeleteFunction", {
       entry: "lambda/delete.ts",
       functionName: "sample-delivery-delete-function",
+      runtime: lambda.Runtime.NODEJS_18_X,
       environment: {
         TABLE_NAME: this.table.tableName,
       },

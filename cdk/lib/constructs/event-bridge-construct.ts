@@ -1,6 +1,7 @@
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as events from "aws-cdk-lib/aws-events";
 import * as targets from "aws-cdk-lib/aws-events-targets";
+import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as nodejs from "aws-cdk-lib/aws-lambda-nodejs";
 import { Construct } from "constructs";
 
@@ -18,6 +19,7 @@ export class EventBridgeConstruct extends Construct {
       {
         entry: "lambda/sendMessage.ts",
         functionName: "sample-delivery-send-message-function",
+        runtime: lambda.Runtime.NODEJS_18_X,
         environment: {
           TABLE_NAME: table.tableName,
           CHANNEL_ACCESS_TOKEN: "dummy",
