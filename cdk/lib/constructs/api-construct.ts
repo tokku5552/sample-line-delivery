@@ -42,6 +42,10 @@ export class ApiConstruct extends Construct {
       },
     });
 
+    const getAlias = getFunction.addAlias("GetFunctionAlias", {
+      provisionedConcurrentExecutions: 1,
+    });
+
     const getAllFunction = new nodejs.NodejsFunction(this, "GetAllFunction", {
       entry: "lambda/getAll.ts",
       functionName: "sample-delivery-get-all-function",
